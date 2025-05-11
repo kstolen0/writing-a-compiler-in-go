@@ -11,6 +11,18 @@ type Definition struct {
 	OperandWidths []int
 }
 
+const (
+	OpConstant Opcode = iota
+	OpAdd
+	OpPop
+	OpSub
+	OpMul
+	OpDiv
+
+	OpTrue
+	OpFalse
+)
+
 var definitions = map[Opcode]*Definition{
 	OpConstant: {"OpConstant", []int{2}},
 	OpAdd:      {"OpAdd", []int{}},
@@ -18,6 +30,9 @@ var definitions = map[Opcode]*Definition{
 	OpSub:      {"OpSub", []int{}},
 	OpMul:      {"OpMul", []int{}},
 	OpDiv:      {"OpDiv", []int{}},
+
+	OpTrue:  {"OpTrue", []int{}},
+	OpFalse: {"OpFalse", []int{}},
 }
 
 func Lookup(op byte) (*Definition, error) {
@@ -31,15 +46,6 @@ func Lookup(op byte) (*Definition, error) {
 type Instructions []byte
 
 type Opcode byte
-
-const (
-	OpConstant Opcode = iota
-	OpAdd
-	OpPop
-	OpSub
-	OpMul
-	OpDiv
-)
 
 func Make(op Opcode, operands ...int) []byte {
 	def, ok := definitions[op]
